@@ -1,0 +1,84 @@
+models:
+  - name: dim_movies
+    description: Primary table for cleansed movie metadata
+    columns:
+      - name: movie_id
+        description: Primary key for the movie
+        tests:
+          - not_null
+          - unique
+
+      - name: movie_title
+        description: Standardized movie title
+        tests:
+          - not_null
+
+      - name: genre_array
+        description: Array of genres parsed from raw string
+
+      - name: genres
+        description: Pipe-separated genre string from source
+
+  - name: dim_users
+    description: Dimension table of unique users who have rated or tagged at least one movie.
+    columns:
+      - name: user_id
+        description: Unique identifier of a user
+        tests:
+          - not_null
+          - unique
+  - name: dim_movies_with_tags
+    description: Ephemeral model joining movies with tag genome relevance scores.
+    columns:
+      - name: movie_id
+        description: Unique identifier for each movie.
+        tests:
+          - not_null
+
+      - name: movie_title
+        description: Cleaned movie title from dim_movies.
+        tests:
+          - not_null
+
+      - name: tag_name
+        description: Human-readable tag from genome tags.
+        tests:
+          - not_null
+
+      - name: relevance_score
+        description: Indicates how relevant the tag is for the movie.
+        tests:
+          - not_null
+  - name: dim_genome_tags
+    description: "Dimension table for genome tags"
+    columns:
+      - name: tag_id
+        description: "Primary key for genome tags"
+        tests:
+          - not_null
+          - unique
+
+      - name: tag_name
+        description: "Cleaned, formatted tag name"
+        tests:
+          - not_null
+  - name: fact_ratings
+    description: "Fact table containing movie ratings by users"
+    columns:
+      - name: user_id
+        description: "ID of the user who gave the rating"
+        tests:
+          - not_null
+      - name: movie_id
+        description: "ID of the rated movie"
+        tests:
+          - not_null
+      - name: rating
+        description: "Rating value given by the user"
+        tests:
+          - not_null
+          - non_negative_rating
+      - name: rating_timestamp
+        description: "Timestamp when the rating was given"
+        tests:
+          - not_null

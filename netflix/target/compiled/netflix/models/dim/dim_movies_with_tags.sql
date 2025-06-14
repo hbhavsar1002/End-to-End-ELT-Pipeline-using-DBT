@@ -1,0 +1,21 @@
+
+
+
+with movies as (
+    select * from MOVIELENS.dev.dim_movies
+),
+tags as (
+    select * from MOVIELENS.dev.dim_genome_tags
+),
+scores as (
+    select * from MOVIELENS.fact.fact_genome_scores
+)
+
+
+select m.movie_id,
+    m.movie_title,
+    t.tag_name,
+    s.relevance_score   
+from movies m
+join scores s on m.movie_id = s.movie_id
+join tags t on t.tag_id = s.tag_id

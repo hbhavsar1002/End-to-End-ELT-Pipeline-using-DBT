@@ -1,0 +1,67 @@
+sources:
+- name: raw
+  database: MOVIELENS
+  schema: raw
+  description: "Raw Movielens data loaded from Amazon S3"
+  tables:
+    - name: raw_movies
+      description: "Original Movies data from Movielens"
+      columns:
+          - name: movieId
+            description: "Unique movie identifier."
+          - name: title
+            description: "Movie title, including release year."
+          - name: genres
+            description: "Pipe-separated list of genres."
+
+    - name: raw_ratings
+      description: "User ratings for movies."
+      columns:
+        - name: userId
+          description: "Anonymized user identifier."
+        - name: movieId
+          description: "Movie identifier."
+        - name: rating
+          description: "Rating on a 0.5-5.0 star scale."
+        - name: timestamp
+          description: "Unix timestamp when the rating was given."
+
+    - name: raw_tags
+      description: "User-generated tags for movies."
+      columns:
+        - name: userId
+          description: "Anonymized user identifier."
+        - name: movieId
+          description: "Movie identifier."
+        - name: tag
+          description: "User-provided tag."
+        - name: timestamp
+          description: "Unix timestamp when the tag was added."
+
+    - name: raw_links
+      description: "Links to external movie identifiers."
+      columns:
+        - name: movieId
+          description: "MovieLens movie identifier."
+        - name: imdbId
+          description: "IMDb movie identifier."
+        - name: tmdbId
+          description: "TMDb movie identifier."
+
+    - name: raw_genome_scores
+      description: "Relevance scores between movies and tags from the Tag Genome."
+      columns:
+        - name: movieId
+          description: "Movie identifier."
+        - name: tagId
+          description: "Tag identifier."
+        - name: relevance
+          description: "Tag relevance score for the movie."
+
+    - name: raw_genome_tags
+      description: "Tag definitions used in the Tag Genome."
+      columns:
+        - name: tagId
+          description: "Tag identifier."
+        - name: tag
+          description: "Tag description."
